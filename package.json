@@ -1,0 +1,67 @@
+{
+  "name": "template-node-server",
+  "version": "1.0.0",
+  "description": "Template for a node server app",
+  "main": "src/server.ts",
+  "engines": {
+    "node": ">= 12",
+    "npm": ">=6"
+  },
+  "scripts": {
+    "start": "npm run serve",
+    "start:dev": "npm run build && npm run watch-node",
+    "start:dev:docker": "docker-compose up",
+    "build": "npm run build:clean && npm run build-babel && npm run lint",
+    "build:clean": "rm -rf dist/*",
+    "build-babel": "babel -d dist -x .js,.jsx,.ts,.tsx ./src/",
+    "build-ts": "tsc",
+    "serve": "node dist/server.js",
+    "test": "jest --forceExit --coverage --verbose",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"Babel,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-babel\" \"npm run watch-node\"",
+    "watch-node": "nodemon --require 'dotenv/config' --require 'babel-register' dist/server.js",
+    "watch-test": "npm run test -- --watchAll",
+    "watch-ts": "tsc -w",
+    "watch-babel": "babel --watch src --out-dir dist -x .js,.jsx,.ts,.tsx",
+    "debug": "npm run build && npm run watch-debug",
+    "serve-debug": "nodemon --inspect dist/server.js",
+    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"Babel,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-babel\" \"npm run serve-debug\"",
+    "lint": "eslint \"**/*.{js,ts}\" --ignore-path .gitignore .",
+    "lint:fix": "npm run lint --fix",
+    "fresh-install": "rm -rf node_modules && npm cache clean --force && npm install"
+  },
+  "author": "samdjro",
+  "license": "ISC",
+  "testPathIgnorePatterns": [
+    "/node_modules/",
+    "/dist"
+  ],
+  "dependencies": {
+    "babel-register": "^6.26.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "typescript": "^3.7.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-typescript": "^7.7.2",
+    "@types/express": "^4.17.2",
+    "@types/jest": "^24.0.23",
+    "@types/supertest": "^2.0.8",
+    "@typescript-eslint/eslint-plugin": "^2.7.0",
+    "@typescript-eslint/parser": "^2.7.0",
+    "concurrently": "^5.0.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.6.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.4",
+    "prettier": "^1.19.1",
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.1.0",
+    "typescript-eslint": "0.0.1-alpha.0"
+  }
+}
