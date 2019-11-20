@@ -8,6 +8,7 @@ import apiController from './controllers/api';
 
 const app = express();
 
+app.set('domain', config.domain);
 app.set('port', config.port);
 app.set('env', config.env);
 
@@ -26,5 +27,6 @@ app.use(cors({
 app.get('/', homeController.index);
 
 app.get('/api', apiController.getApi);
+app.get('/api/status', apiController.getStatus);
 
 export default app;
